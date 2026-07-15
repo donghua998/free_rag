@@ -1,0 +1,74 @@
+### 1. 注册用户
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "123456",
+  "email": "test@example.com"
+}
+
+### 2. 用户登录
+POST http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "123456"
+}
+
+### 3. 重复注册（应失败）
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "123456",
+  "email": "test2@example.com"
+}
+
+### 4. 错误密码登录（应失败）
+POST http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "wrongpassword"
+}
+
+### 5. 不存在的用户（应失败）
+POST http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+  "username": "notexist",
+  "password": "123456"
+}
+### 3. 获取用户信息（需要 Token）
+GET http://localhost:8081/user/info
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ0ZXN0dXNlciIsImlhdCI6MTc4NDA4MTQyNywiZXhwIjoxNzg0Njg2MjI3fQ.weAPJ9waKNfnLKjddNslsYy7909X1cIr_LSJEmNPRds
+### 1. 管理员登录
+POST http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "123456"
+}
+
+### 2. 管理员访问用户列表（应该成功）
+GET http://localhost:8081/user/list
+Authorization: Bearer <admin_token>
+
+### 3. 普通用户登录
+POST http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+  "username": "normaluser",
+  "password": "123456"
+}
+
+### 4. 普通用户访问用户列表（应该失败 403）
+GET http://localhost:8081/user/list
+Authorization: Bearer <normal_token>

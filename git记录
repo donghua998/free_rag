@@ -2,7 +2,7 @@
 git add .
 
 # 2. 给这次提交写个备注（比如你改了什么东西）
-git commit -m "修复了pom.xml的依赖问题，更新了代码"
+git commit -m "做了鉴权功能"
 
 # 3. 推送到 GitHub（因为之前绑定了 -u，这里直接写 git push 就行）
 git push
