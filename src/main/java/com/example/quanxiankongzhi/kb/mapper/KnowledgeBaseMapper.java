@@ -1,0 +1,10 @@
+package com.example.quanxiankongzhi.kb.mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.quanxiankongzhi.kb.entity.KnowledgeBase;
+import org.apache.ibatis.annotations.Mapper;
+/**
+ * 知识库 Mapper
+ */
+@Mapper
+public interface KnowledgeBaseMapper extends BaseMapper<KnowledgeBase> {
+}
