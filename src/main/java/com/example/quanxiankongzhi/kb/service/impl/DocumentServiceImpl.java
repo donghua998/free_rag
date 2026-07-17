@@ -17,10 +17,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.apache.tika.Tika;
+import com.example.quanxiankongzhi.kb.service.ChunkingService;
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService{
+    private final ChunkingService chunkingService;
     private final DocumentMapper documentMapper;
     @Value("${file.upload-dir:./uploads}")
     private String uploadDir;
@@ -43,6 +46,15 @@ public class DocumentServiceImpl implements DocumentService{
         // ⑤ 保存文件到磁盘
         Path filePath = uploadPath.resolve(storedName);
         Files.copy(file.getInputStream(), filePath);
+        // ⑥ 提取文件内容
+        String content = "";
+        try{
+            Tika tika = new Tika();
+            content = tika.parseToString(filePath.toFile());
+            log.info("文本提取成功，文件: {}, 字符数: {}", originalName, content.length());
+        }catch (Exception e){
+            log.warn("文本提取失败: {}, 原因: {}", originalName, e.getMessage());
+        }
         // ⑥ 写数据库记录
         Document doc = new Document();
         doc.setKbId(kbId);
@@ -53,7 +65,12 @@ public class DocumentServiceImpl implements DocumentService{
         doc.setStatus(1);
         doc.setCreateTime(LocalDateTime.now());
         doc.setUpdateTime(LocalDateTime.now());
+        doc.setContent(content);
         documentMapper.insert(doc);
+        // ⑦ 文本分块
+        if (content != null && !content.isEmpty()) {
+            chunkingService.chunkAndSave(content, doc.getId(), kbId);
+        }
         return toVo(doc);
 
     }

@@ -6,25 +6,18 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 @Data
-@TableName("kb_document")
-public class Document {
+@TableName("kb_chunk")
+public class Chunk {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    private Long docId;
+
     private Long kbId;
 
-    private String name;
+    private Integer chunkIndex;
 
-    private String fileType;
-
-    private Long fileSize;
-
-    private String filePath;
-
-    private Integer status;
     private String content;
 
     private LocalDateTime createTime;
-
-    private LocalDateTime updateTime;
 }

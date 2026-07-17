@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.io.IOException;
 @RestController
 @RequestMapping("/kb/document")
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class DocumentController {
     public Result<DocumentVo> upload(
             @RequestParam("file") MultipartFile file,
             @RequestParam("kbId") Long kbId
-    ){
+    )throws IOException{
         DocumentVo vo = documentService.upload(file, kbId);
         return Result.success(vo);
     }

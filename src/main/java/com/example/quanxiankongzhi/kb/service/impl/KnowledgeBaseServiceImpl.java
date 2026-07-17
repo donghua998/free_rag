@@ -4,6 +4,7 @@ import com.example.quanxiankongzhi.kb.dto.KnowledgeBaseVo;
 import com.example.quanxiankongzhi.kb.entity.KnowledgeBase;
 import com.example.quanxiankongzhi.kb.mapper.KnowledgeBaseMapper;
 import lombok.RequiredArgsConstructor;
+import com.example.quanxiankongzhi.kb.service.KnowledgeBaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KnowledgeBaseServiceImpl implements KnowledgeBaseServiceImpl {
+public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
     private final KnowledgeBaseMapper knowledgeBaseMapper;
     @Override
     public KnowledgeBaseVo create(KnowledgeBaseDTO dto, Long ownerId) {

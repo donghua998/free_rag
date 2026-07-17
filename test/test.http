@@ -1,5 +1,5 @@
 ### 1. 注册用户
-POST http://localhost:8081/auth/register
+POST http://localhost:8082/auth/register
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ### 2. 用户登录
-POST http://localhost:8081/auth/login
+POST http://localhost:8082/auth/login
 Content-Type: application/json
 
 {
@@ -17,8 +17,8 @@ Content-Type: application/json
   "password": "123456"
 }
 
-### 3. 重复注册（应失败）
-POST http://localhost:8081/auth/register
+### 3. 重复注册（应失败�?
+POST http://localhost:8082/auth/register
 Content-Type: application/json
 
 {
@@ -27,8 +27,8 @@ Content-Type: application/json
   "email": "test2@example.com"
 }
 
-### 4. 错误密码登录（应失败）
-POST http://localhost:8081/auth/login
+### 4. 错误密码登录（应失败�?
+POST http://localhost:8082/auth/login
 Content-Type: application/json
 
 {
@@ -36,19 +36,19 @@ Content-Type: application/json
   "password": "wrongpassword"
 }
 
-### 5. 不存在的用户（应失败）
-POST http://localhost:8081/auth/login
+### 5. 不存在的用户（应失败�?
+POST http://localhost:8082/auth/login
 Content-Type: application/json
 
 {
   "username": "notexist",
   "password": "123456"
 }
-### 3. 获取用户信息（需要 Token）
-GET http://localhost:8081/user/info
+### 3. 获取用户信息（需�?Token�?
+GET http://localhost:8082/user/info
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ0ZXN0dXNlciIsImlhdCI6MTc4NDA4MTQyNywiZXhwIjoxNzg0Njg2MjI3fQ.weAPJ9waKNfnLKjddNslsYy7909X1cIr_LSJEmNPRds
-### 1. 管理员登录
-POST http://localhost:8081/auth/login
+### 1. 管理员登�?
+POST http://localhost:8082/auth/login
 Content-Type: application/json
 
 {
@@ -56,12 +56,12 @@ Content-Type: application/json
   "password": "123456"
 }
 
-### 2. 管理员访问用户列表（应该成功）
-GET http://localhost:8081/user/list
+### 2. 管理员访问用户列表（应该成功�?
+GET http://localhost:8082/user/list
 Authorization: Bearer <admin_token>
 
-### 3. 普通用户登录
-POST http://localhost:8081/auth/login
+### 3. 普通用户登�?
+POST http://localhost:8082/auth/login
 Content-Type: application/json
 
 {
@@ -69,6 +69,44 @@ Content-Type: application/json
   "password": "123456"
 }
 
-### 4. 普通用户访问用户列表（应该失败 403）
-GET http://localhost:8081/user/list
+### 4. 普通用户访问用户列表（应该失败 403�?
+GET http://localhost:8082/user/list
 Authorization: Bearer <normal_token>
+### 上传文档测试
+POST http://localhost:8082/kb/document/upload
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="test.txt"
+Content-Type: text/plain
+
+<D:\05WORK\26LHK\test3\quanxiankongzhi\test\test.txt
+--boundary
+Content-Disposition: form-data; name="kbId"
+
+
+--boundary--
+### 1. 先登录获�?Token
+POST http://localhost:8082/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "123456"
+}
+
+### 2. 上传文档（替�?<token> �?<kbId>�?
+POST http://localhost:8082/kb/document/upload
+Authorization: Bearer <token>
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="test.txt"
+Content-Type: text/plain
+
+<D:\05WORK\26LHK\test3\quanxiankongzhi\test\test.txt
+--boundary
+Content-Disposition: form-data; name="kbId"
+
+1
+--boundary--
