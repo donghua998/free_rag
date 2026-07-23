@@ -1,4 +1,5 @@
 package com.example.quanxiankongzhi.config;
+import com.example.quanxiankongzhi.api.interceptor.ApiKeyInterceptor;
 import com.example.quanxiankongzhi.auth.interceptor.JwtInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     private final JwtInterceptor jwtInterceptor;
+    private final ApiKeyInterceptor apiKeyInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
@@ -15,7 +17,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns(              // 排除以下路径
                         "/auth/login",             // 登录
                         "/auth/register",          // 注册
+                        "/api/search",          // 外部 API 不需要 JWT
                         "/error"                   // 错误页面
                 );
+        // API Key 拦截器 — 拦截外部 API
+        registry.addInterceptor(apiKeyInterceptor)
+                .addPathPatterns("/api/search");  // 只拦截搜索接口
     }
 }

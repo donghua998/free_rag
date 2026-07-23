@@ -29,8 +29,8 @@ public class KnowledgeBaseController {
      * 查询知识库列表
      */
     @GetMapping("/list")
-    public Result<List<KnowledgeBaseVo>> list(){
-        List<KnowledgeBaseVo> list = knowledgeBaseService.list();
+    public Result<List<KnowledgeBaseVo>> list(@RequestAttribute("userId") Long userId){
+        List<KnowledgeBaseVo> list = knowledgeBaseService.list(userId);
         return Result.success(list);
     }
     /**
@@ -40,9 +40,10 @@ public class KnowledgeBaseController {
     @PutMapping("/update/{id}")
     public Result<KnowledgeBaseVo> update(
             @PathVariable Long id,
-            @RequestBody KnowledgeBaseDTO dto
+            @RequestBody KnowledgeBaseDTO dto,
+            @RequestAttribute("userId") Long userId
     ){
-        KnowledgeBaseVo vo = knowledgeBaseService.update(id, dto);
+        KnowledgeBaseVo vo = knowledgeBaseService.update(id, dto, userId);
         return Result.success(vo);
     }
     /**
@@ -50,8 +51,8 @@ public class KnowledgeBaseController {
      */
     @RequirePermission("kb:delete")
     @DeleteMapping("/delete/{id}")
-    public Result<Void> delete(@PathVariable Long id){
-        knowledgeBaseService.delete(id);
+    public Result<Void> delete(@PathVariable Long id,@RequestAttribute("userId") Long userId){
+        knowledgeBaseService.delete(id, userId);
         return Result.success();
     }
 }

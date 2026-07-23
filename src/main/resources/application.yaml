@@ -15,6 +15,9 @@ spring:
       max-file-size: 50MB
       max-request-size: 100MB
 
+  elasticsearch:
+    uris: http://localhost:9200
+
 
 
 file:

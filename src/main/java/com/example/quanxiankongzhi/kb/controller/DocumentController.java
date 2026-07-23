@@ -9,11 +9,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.io.IOException;
+import com.example.quanxiankongzhi.kb.dto.SearchRequest;
+import com.example.quanxiankongzhi.kb.dto.SearchResultVO;
+import com.example.quanxiankongzhi.kb.service.SearchService;
 @RestController
 @RequestMapping("/kb/document")
 @RequiredArgsConstructor
 public class DocumentController {
     private final DocumentService documentService;
+    private final SearchService searchService;
     /**
      * 上传文档
      */
@@ -42,5 +46,13 @@ public class DocumentController {
     public Result<Void> delete(@PathVariable Long id){
         documentService.delete(id);
         return Result.success();
+    }
+    /**
+     * 向量搜索
+     */
+    @PostMapping("/search")
+    public Result<List<SearchResultVO>> search(@RequestBody SearchRequest request) {
+        List<SearchResultVO> results = searchService.search(request);
+        return Result.success(results);
     }
 }

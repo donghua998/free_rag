@@ -19,12 +19,14 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.tika.Tika;
 import com.example.quanxiankongzhi.kb.service.ChunkingService;
+import com.example.quanxiankongzhi.kb.service.FullTextSearchService;
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService{
     private final ChunkingService chunkingService;
     private final DocumentMapper documentMapper;
+    private final FullTextSearchService fullTextSearchService;
     @Value("${file.upload-dir:./uploads}")
     private String uploadDir;
     @Override
@@ -98,6 +100,7 @@ public class DocumentServiceImpl implements DocumentService{
         }
         // ② 删除数据库记录
         documentMapper.deleteById(id);
+        fullTextSearchService.deleteByDocId(id);
     }
     private DocumentVo toVo(Document doc){
         DocumentVo vo = new DocumentVo();

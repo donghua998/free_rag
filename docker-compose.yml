@@ -51,11 +51,27 @@ services:
     depends_on:
       - kb-etcd
       - kb-minio
+  # Elasticsearch 全文检索
+  kb-elasticsearch:
+    image: elasticsearch:8.11.3
+    container_name: kb-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - kb_es_data:/usr/share/elasticsearch/data
+    networks:
+      - kb-network
 
 volumes:
   kb_etcd_data:
   kb_minio_data:
   kb_milvus_data:
+  kb_es_data:
 
 networks:
   kb-network:

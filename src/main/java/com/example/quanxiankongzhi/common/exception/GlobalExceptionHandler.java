@@ -48,4 +48,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Result.error(500, "服务器内部错误"));
     }
+    /**
+     * 处理 API Key 异常
+     */
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    public ResponseEntity<Result<Void>> handleBadRequest(IllegalArgumentException e){
+        log.warn("请求参数错误: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Result.error(400, e.getMessage()));
+    }
 }
